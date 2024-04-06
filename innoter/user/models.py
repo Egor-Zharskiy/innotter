@@ -18,6 +18,9 @@ class User(AbstractUser):
 class Tag(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
+    # def __str__(self):
+    #     return self.name
+
 
 class Page(models.Model):
     name = models.CharField(max_length=80)
@@ -26,6 +29,10 @@ class Page(models.Model):
     tags = models.ManyToManyField('Tag', related_name='pages')
 
     owner = models.ForeignKey('User', on_delete=models.CASCADE, related_name='pages')
-    followers = models.ManyToManyField('User', related_name='requests')
+    followers = models.ManyToManyField('User', related_name='followers')
 
     unblock_date = models.DateTimeField(null=True, blank=True)
+
+    image = models.URLField(null=True, blank=True)
+    is_private = models.BooleanField(default=False)
+    follow_requests = models.ManyToManyField('User', related_name='requests')
